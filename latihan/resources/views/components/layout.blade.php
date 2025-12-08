@@ -1,26 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- Tambahkan slot baru dengan $title --}}
-    <title>{{ $title ?? 'Laravel App' }}</title>
+    //<title>{{ $title ?? 'Laravel App' }}</title>
+    @vite('resources/css/app.css')
 </head>
-<body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/blog">Blog</a>
-        <a href="/contact">Contact</a>
 
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="text-xl font-bold text-blue-600">My Laravel App</div>
+                <div class="flex items-center space-x-6">
+                    <a href="/" class="text-gray-700 hover:text-blue-600 transition">Home</a>
+                    <a href="/about" class="text-gray-700 hover:text-blue-600 transition">About</a>
+                    <a href="/blog" class="text-gray-700 hover:text-blue-600 transition">Blog</a>
+                    <a href="/posts" class="text-gray-700 hover:text-blue-600 transition">Posts</a>
+                    <a href="{{ route('categories.index') }}" class="text-gray-700 hover:text-blue-600 transition">Categories</a>
+                    <a href="/contact" class="text-gray-700 hover:text-blue-600 transition">Contact</a>
+
+                    @auth
+                    {{-- Menu untuk user yang sudah login --}}
+                    <a href="{{ route('dashboard.index') }}" class="text-gray-700 hover:text-blue-600 transition font-semibold">Dashboard</a>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600">Hi, {{ auth()->user()->name }}</span>
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                    @else
+                    {{-- Menu untuk user yang belum login --}}
+                    <a href="{{ route('login') }}" class="text-gray-700 hover:text-blue-600 transition">Login</a>
+                    <a href="{{ route('register') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">
+                        Register
+                    </a>
+                    @endauth
+                </div>
+            </div>
+        </div>
     </nav>
 
-    {{ $slot }}
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            {{ $slot }}
+        </div>
+    </main>
 
-    <footer style="margin-top: 20px;">
-        © 2025 Praktikum Web – Universitas Pasundan
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- About Section -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">About Us</h3>
+                    <p class="text-gray-400">Laravel practice project for learning MVC architecture and Blade templating.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="/blog" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="/posts" class="text-gray-400 hover:text-white transition">Posts</a></li>
+                        <li><a href="{{ route('categories.index') }}" class="text-gray-400 hover:text-white transition">Categories</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact</h3>
+                    <p class="text-gray-400">Email: info@laravelapp.com</p>
+                    <p class="text-gray-400">Phone: +62 123 4567 890</p>
+                    <p class="text-gray-400 mt-2">Bandung, West Java, Indonesia</p>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-400">&copy; {{ date('Y') }} Laravel App. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
-
-
 </body>
+
 </html>
+
+<!-- <!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @vite(['resources/css/app.css','resources/js/app.js'])
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>{{ $title }}</title>
+</head>
+
+<body class="h-full">
+    <div class="min-h-full">
+        <x-navbar></x-navbar>
+
+        <x-header>{{ $title }}</x-header>
+
+        <main>
+            <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                {{ $slot }}
+            </div>
+        </main>
+    </div>
+</body>
+
+</html> -->

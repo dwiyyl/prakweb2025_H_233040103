@@ -5,3 +5,9 @@
     </x-slot:title>
     <h1>Halaman About</h1>
 </x-layout>
+
+<!-- <x-layout>
+    <x-slot:title>
+        <h1>Halaman About</h1>
+    </x-slot:title>
+</x-layout> -->
